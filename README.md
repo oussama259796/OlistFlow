@@ -246,7 +246,7 @@ Generated procedurally using `calogica/dbt_date` (or similar package) to ensure 
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/olistflow.git
+git clone https://github.com/oussama259796/OlistFlow
 cd olistflow
 
 # Install dependencies
