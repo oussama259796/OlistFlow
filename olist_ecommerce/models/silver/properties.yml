@@ -1,0 +1,119 @@
+version: 2
+
+sources:
+  - name: bronze_layer
+    database: brazilian-e-commerce-498211
+    schema: bronze
+    tables:
+      - name: olist_customers
+      - name: olist_geolocation
+      - name: olist_order_items
+      - name: olist_order_payments
+      - name: olist_order_reviews
+      - name: olist_orders
+      - name: olist_products
+      - name: olist_sellers
+      - name: product_category_name
+
+models:
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        data_tests:
+          - not_null
+
+  - name: stg_geolocation
+    columns:
+      - name: geolocation_zip_code_prefix
+        data_tests:
+          - not_null
+
+  - name: stg_orders
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+
+  - name: stg_order_items
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+      - name: order_item_id
+        data_tests:
+          - not_null
+      - name: product_id
+        data_tests:
+          - not_null
+      - name: seller_id
+        data_tests:
+          - not_null
+      - name: price
+        data_tests:
+          - not_null
+          - not_negative  
+      - name: freight_value
+        data_tests:
+          - not_null
+          - not_negative 
+
+  - name: stg_sellers
+    columns:
+      - name: seller_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_products
+    columns:
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_product_category
+    columns:
+      - name: product_category_name
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_order_payments
+    description: "Staging model for order payments. One order can have multiple payment methods."
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null 
+      - name: payment_sequential
+        data_tests:
+          - not_null
+      - name: payment_type
+        data_tests:
+          - not_null
+      - name: payment_installments
+        data_tests:
+          - not_null
+          - not_negative 
+      - name: payment_value
+        data_tests:
+          - not_null
+          - not_negative 
+
+  - name: stg_order_reviews
+    description: "Staging model for customer reviews."
+    columns:
+      - name: review_id
+        data_tests:
+          - not_null
+      - name: review_score
+        data_tests:
+          - not_null
+          - not_negative 

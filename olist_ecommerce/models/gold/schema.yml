@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: fct_order
+    columns:
+      - name: order_item_pk
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_pk
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_pk
+
+      - name: is_delivery_delayed
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "in (0, 1)" 
+
+      - name: item_price
+        tests:
+          - not_null
+          - not_negative:
+              arguments: {} 
